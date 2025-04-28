@@ -1,18 +1,22 @@
 package med.voll.api.medico;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import med.voll.api.endereco.Endereco;
 
-@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Medico")
 @Table(name = "medicos")
 public class Medico {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String email;
@@ -34,5 +38,34 @@ public class Medico {
         this.crm = dados.crm();
         this.especialidade = dados.especialidade();
         this.endereco = new Endereco(dados.endereco());
+    }
+
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getTelefone() {
+        return this.telefone;
+    }
+
+    public String getCrm() {
+        return this.crm;
+    }
+
+    public Especialidade getEspecialidade() {
+        return this.especialidade;
+    }
+
+    public Endereco getEndereco() {
+        return this.endereco;
     }
 }

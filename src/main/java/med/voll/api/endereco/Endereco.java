@@ -3,8 +3,9 @@ package med.voll.api.endereco;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
+@Setter
 @Getter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
 public class Endereco {
