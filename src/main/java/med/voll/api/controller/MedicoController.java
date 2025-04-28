@@ -1,12 +1,10 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.medico.ComandoDadosCadastroMedico;
-import med.voll.api.medico.DadosListagemMedico;
-import med.voll.api.medico.Medico;
-import med.voll.api.medico.MedicoRepository;
+import med.voll.api.medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +25,34 @@ public class MedicoController {
 
     @GetMapping
     public Page<DadosListagemMedico> listar(@PageableDefault(size = 2, sort = {"nome"}) Pageable paginacao) {
-        return medicoRepository.findAll(paginacao).map(DadosListagemMedico::new);
+        int page = paginacao.getPageNumber();
+        int size = paginacao.getPageSize();
+
+        if (size > 100) {
+            size = 100; // Limita o tamanho
+        }
+
+        Pageable paginacaoLimitada = PageRequest.of(page, size, paginacao.getSort());
+        return medicoRepository.findAllByAtivoTrue(paginacaoLimitada).map(DadosListagemMedico::new);
     }
+
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid ComandoDadosAtualizacaoMedico dados) {
+        var medico = medicoRepository.getReferenceById(dados.id());
+        medico.atualizarInformacoes(dados);
+    }
+
+//    @DeleteMapping("/{id}")
+//    @Transactional
+//    public void excluir(@PathVariable Long id) {
+//        medicoRepository.deleteById(id);
+//    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id) {
+        var medico = medicoRepository.getReferenceById(id);
+        medico.desativar();
+    }
+
 }

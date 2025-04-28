@@ -29,9 +29,12 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
+    private boolean ativo;
+
     public Medico() {}
 
     public Medico(ComandoDadosCadastroMedico dados) {
+        this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
@@ -67,5 +70,21 @@ public class Medico {
 
     public Endereco getEndereco() {
         return this.endereco;
+    }
+
+    public void atualizarInformacoes(ComandoDadosAtualizacaoMedico dados) {
+        if (dados.nome() != null && dados.nome() != "") {
+            this.nome = dados.nome();
+        }
+        if (dados.telefone() != null && dados.telefone() != "") {
+            this.telefone = dados.telefone();
+        }
+        if (dados.endereco() != null) {
+            this.endereco.atualizarInformacoes(dados.endereco());
+        }
+    }
+
+    public void desativar() {
+        this.ativo = false;
     }
 }
