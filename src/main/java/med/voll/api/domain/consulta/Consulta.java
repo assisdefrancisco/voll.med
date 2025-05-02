@@ -3,15 +3,12 @@ package med.voll.api.domain.consulta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import med.voll.api.domain.enums.MotivoCancelamento;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
 
 import java.time.LocalDateTime;
 
-@Getter
 //@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -37,16 +34,37 @@ public class Consulta {
     @Enumerated(EnumType.STRING)
     private MotivoCancelamento motivoCancelamento;
 
-    public Consulta() {}
+    public Consulta() {
+    }
 
     public Consulta(Medico medico, Paciente paciente, LocalDateTime data, MotivoCancelamento motivoCancelamento) {
         this.medico = medico;
         this.paciente = paciente;
-        this.data= data;
+        this.data = data;
         this.motivoCancelamento = motivoCancelamento;
     }
 
     public void cancelar(MotivoCancelamento motivo) {
         this.motivoCancelamento = motivo;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Medico getMedico() {
+        return this.medico;
+    }
+
+    public Paciente getPaciente() {
+        return this.paciente;
+    }
+
+    public LocalDateTime getData() {
+        return this.data;
+    }
+
+    public MotivoCancelamento getMotivoCancelamento() {
+        return this.motivoCancelamento;
     }
 }
